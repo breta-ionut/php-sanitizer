@@ -10,11 +10,7 @@
 /vendor/
 /web/bundles/
 /nbproject/
-/data/projects/*
-!data/projects/.gitkeep
-/data/tmp/analyzer/*
-!data/tmp/analyzer/.gitkeep
-/data/tmp/analyzer_phpmd/*
-!data/tmp/analyzer_phpmd/.gitkeep
+/data/*
+!data/.gitkeep
 /web/compiled/*
 !web/compiled/.gitkeep
