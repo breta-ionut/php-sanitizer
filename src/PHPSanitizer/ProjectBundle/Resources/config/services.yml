@@ -1,0 +1,157 @@
+# The services and configuration parameters defined by the bundle.
+
+# The configuration parameters defined in the bundle.
+parameters:
+    # The path where the projects are stored.
+    php_sanitizer_project.projects_base_directory: data\projects
+    # The path to the main analyzer workspace.
+    php_sanitizer_project.analyzer.workspace: data\tmp\analyzer
+    # The path to the PHPMD analyzer workspace.
+    php_sanitizer_project.analyzer.phpmd.workspace: data\tmp\analyzer_phpmd
+    # The path to the PHPMD tool.
+    php_sanitizer_project.analyzer.phpmd.phpmd_path: D:\Projects\Web\PHP\PHP-Sanitizer\vendor\phpmd\phpmd\src\bin
+    # The PHPMD rules used to analyze projects.
+    php_sanitizer_project.analyzer.phpmd.rules:
+        - codesize
+        - cleancode
+        - controversial
+        - design
+        - naming
+        - unusedcode
+    # The complete collection of routes which correspond to analyses reading actions. Upon accesing these paths,
+    # the corresponding analyses will not be considered "new" anymore.
+    php_sanitizer_project.analyzer_manager.analyses_viewing_routes:
+        - php_sanitizer_project_analysis_dependency
+        - php_sanitizer_project_analysis_chart
+        - php_sanitizer_project_analysis_table
+
+# The services defined by the bundle.
+services:
+    # The projects security handler.
+    security.access.project_voter:
+        class: PHPSanitizer\ProjectBundle\Service\ProjectVoter
+        public: false
+        tags:
+            - { name: security.voter }
+    
+    # A service which acts as a project supervisor. Mainly, all project related operations are handled through it.
+    php_sanitizer_project.project_manager:
+        class: PHPSanitizer\ProjectBundle\Service\ProjectManager
+        arguments: [%kernel.root_dir%, %php_sanitizer_project.projects_base_directory%, @event_dispatcher]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    # A service which acts as a analyzer manager. Mainly, all analysis related operations are handled through it.
+    php_sanitizer_project.analyzer_manager:
+        class: PHPSanitizer\ProjectBundle\Service\AnalyzerManager
+        arguments: [%kernel.root_dir%, %php_sanitizer_project.analyzer_manager.analyses_viewing_routes%]
+        calls:
+            - [setDoctrine, [@doctrine]]
+            - [setAuthorizationChecker, [@security.authorization_checker]]
+            - [setLogger, [@logger]]
+        tags:
+            - 
+                name: kernel.event_listener
+                event: php_sanitizer_project.project.source_change
+                method: onProjectSourceChange
+            -   
+                name: kernel.event_listener
+                event: php_sanitizer_project.analysis.end
+                method: onAnalysisEnd
+            -   
+                name: kernel.event_listener
+                event: kernel.terminate
+                method: onTerminate
+    
+    # A service used to compute project analyses.
+    php_sanitizer_project.analyzer:
+        class: PHPSanitizer\ProjectBundle\Service\Analyzer
+        arguments:
+            - %kernel.root_dir%
+            - %php_sanitizer_project.analyzer.workspace%
+            - @doctrine
+            - @event_dispatcher
+            - @logger
+        calls:
+            - [setDependencyAnalyzer, [@php_sanitizer_project.analyzer.dependency]]
+            - [setPHPMDAnalyzer, [@php_sanitizer_project.analyzer.phpmd]]
+    
+    # A sub-service, used by the analyzer service to compute dependency related analyses on projects.
+    php_sanitizer_project.analyzer.dependency:
+        class: PHPSanitizer\ProjectBundle\Service\Analyzer\Dependency
+        arguments: [@php_sanitizer_project.analyzer.dependency.graph_connected_components]
+        
+    # A helper service which detects the strongly connected components in a graph.
+    php_sanitizer_project.analyzer.dependency.graph_connected_components:
+        class: PHPSanitizer\ProjectBundle\Service\Analyzer\Dependency\GraphConnectedComponents
+    
+    # A sub-service, used by the analyzer service to compute code quality analyses using the PHPMD tool.
+    php_sanitizer_project.analyzer.phpmd:
+        class: PHPSanitizer\ProjectBundle\Service\Analyzer\PHPMD
+        arguments:
+            - %kernel.root_dir%
+            - %php_sanitizer_project.analyzer.phpmd.workspace%
+            - %php_sanitizer_project.analyzer.phpmd.phpmd_path%
+            - %php_sanitizer_project.analyzer.phpmd.rules%
+    
+    # The analyses parsers service group. This services have the goal of parsing analyses information in order
+    # to transform in into renderable information.
+    
+    # Dependency analyses parser.
+    php_sanitizer_project.analyses_parsers.dependency:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\Dependency
+        arguments: 
+            - @php_sanitizer_project.analyses_parsers_cache_manager
+            - @php_sanitizer_project.analyses_parsers.helper
+    
+    # PHPMD analyses parser.
+    php_sanitizer_project.analyses_parsers.phpmd:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\PHPMD
+        arguments: 
+            - @php_sanitizer_project.analyses_parsers_cache_manager
+            - @php_sanitizer_project.analyses_parsers.helper
+    
+    # Dependency analyses parser acting directly on the project.
+    php_sanitizer_project.analyses_parsers.project_dependency:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\ProjectDependency
+        arguments: 
+            - @php_sanitizer_project.analyses_parsers_cache_manager
+            - @php_sanitizer_project.analyses_parsers.helper
+    
+    # PHPMD analyses parser acting directly on the project.
+    php_sanitizer_project.analyses_parsers.project_phpmd:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\ProjectPHPMD
+        arguments: 
+            - @php_sanitizer_project.analyses_parsers_cache_manager
+            - @php_sanitizer_project.analyses_parsers.helper
+    
+    # General analyses parser acting directly on the project.
+    php_sanitizer_project.analyses_parsers.project:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\Project
+        arguments: 
+            - @php_sanitizer_project.analyses_parsers_cache_manager
+            - @php_sanitizer_project.analyses_parsers.helper
+        calls:
+            - [setProjectPHPMDParser, [@php_sanitizer_project.analyses_parsers.project_phpmd]]
+            - [setProjectDependencyParser, [@php_sanitizer_project.analyses_parsers.project_dependency]]
+    
+    # General analyses parser acting directly on the user.
+    php_sanitizer_project.analyses_parsers.user:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\User
+        arguments: 
+            - @php_sanitizer_project.analyses_parsers_cache_manager
+            - @php_sanitizer_project.analyses_parsers.helper
+        calls:
+            - [setProjectPHPMDParser, [@php_sanitizer_project.analyses_parsers.project_phpmd]]
+            - [setProjectDependencyParser, [@php_sanitizer_project.analyses_parsers.project_dependency]]
+    
+    # End of the analyses parsers service group.
+    
+    # Service which offers common functionality to the analyses parsers.
+    php_sanitizer_project.analyses_parsers.helper:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsers\Helper
+    
+    # Service used for the management of cached data by the analyses parsers.
+    php_sanitizer_project.analyses_parsers_cache_manager:
+        class: PHPSanitizer\ProjectBundle\Service\AnalysesParsersCacheManager
+        arguments: [@doctrine]

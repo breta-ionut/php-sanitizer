@@ -1,0 +1,63 @@
+{#
+    The template corresponding to the login page.
+    Available variables:
+        - error: the last login error;
+        - last_username: the username corresponding to the last unsuccessful login;
+#}
+
+{% extends 'user/layout.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent () }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.user.login.css'
+       'css/user/login.css' %}
+       
+       <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="login-block panel panel-primary">
+        <div class="login-block-title panel-heading clearfix">
+            <h4 class="pull-left"> Welcome to PHP-Sanitizer! </h4>
+            <div class="logo pull-right"></div>
+        </div>
+        
+        <div class="login-block-content panel-body">
+            {% if error %}
+                <div class="error-message alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+            
+            <form action="{{ path('php_sanitizer_user_login_check') }}" method="post" class="login-form">
+                <div class="form-group">
+                    <label for="username" class="control-label required">Username</label>
+                    <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}"
+                        required="required" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label required">Password</label>
+                    <input type="password" id="password" class="form-control" name="_password" 
+                        required="required" />
+                </div>
+
+                <div class="buttons-container clearfix">
+                    <div class="form-group pull-left">
+                        <button type="submit" class="login-button btn btn-lg btn-primary"> Login </button>
+                    </div>
+                    
+                    <div class="form-group pull-right">
+                        <a href="{{ path ('php_sanitizer_user_register') }}"
+                            class="register-button btn btn-lg btn-success">
+                            Register
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

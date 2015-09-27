@@ -1,0 +1,15 @@
+# The services defined by the bundle.
+
+parameters:
+    # An authenticated user who enters the login or the register page will be redirected to the below
+    # defined route.
+    php_sanitizer_user_redirect_route: php_sanitizer_project_index
+        
+services:
+    # Define a service which listens on the requests to the login and register pages and forwards
+    # the users to a defined path.
+    kernel.listener.php_sanitizer_user_redirect:
+        class: PHPSanitizer\UserBundle\Service\Redirect
+        arguments: [@security.authorization_checker, @router, %php_sanitizer_user_redirect_route%]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onRequest }

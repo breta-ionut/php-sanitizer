@@ -1,0 +1,64 @@
+{#
+    The template for the dependency graph ilustration.
+    Available variables:
+        - graph: the graph rendering data;
+#}
+
+{% extends 'base.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.analysis.dependency.css'
+        'css/analysis/graph.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <div id="container"></div>
+
+    <div id="legend"></div>
+{% endblock %}
+
+{# Add the sigma library, used for graph rendering. #}
+{% block javascripts_libs %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js-libs.analysis.dependency.js'
+        'libs/sigma/sigma.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{# Add the page's javascript files and data. #}
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js.analysis.dependency.js' 
+        'js/widgets/graph/components/*'
+        'js/widgets/graph/register.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    <script type="text/javascript">
+        (function () {
+            var graphData = {
+                graph: {
+                    data: {
+                        container: 'container',
+                        graph: {{ graph.data | json_encode() | raw }},
+                        settings: { sideMargin: 1 },
+                    },
+                    legend: {
+                        container: '#legend',
+                        legend: {{ graph.legend | json_encode() | raw }}
+                    }
+                }
+            };
+            
+            PHPS.Executor.addData(graphData);
+        })();
+    </script>
+{% endblock %}

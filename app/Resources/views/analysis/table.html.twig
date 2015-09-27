@@ -1,0 +1,63 @@
+{# 
+    The template for the PHPMD errors table.
+    Available variables:
+        - table: set of file with errors. For file we know the errors, where every error is an array with the
+        following keys:
+            - priority: the error priority. Consists of a name and a color;
+            - rule: the rule violation which generated the error. Consists of a name and an optional URL to the rule's
+            description page;
+            - ruleset: the ruleset to which the rule belongs;
+            - lines: the lines in the file which generated the error;
+            - message: the error message;
+#}
+
+{% extends 'base.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.analysis.table.css'
+        'css/analysis/table.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <table class="phpmd-errors table table-bordered">
+        <thead>
+            <th> Priority </th>
+            <th> Rule </th>
+            <th> Lines </th>
+            <th> Message </th>
+        </thead>
+        
+        <tbody> {% if table is empty %}
+            <tr class="phpmd-empty"><td colspan="5">
+                <span class="text-primary"> There are no errors reported by PHPMD. This should be a good sign! </span>
+            </td></tr>
+            {% else %} {% for file, errors in table %}
+                <tr class="phpmd-file"><td colspan="5"> {{ file }} </td></tr>
+
+                {% for error in errors %} <tr class="phpmd-error">
+                    <td class="priority" style="background-color:{{ error.priority.color }}">
+                        {{ error.priority.code }}
+                    </td>
+
+                    <td class="rule">
+                        {% if error.rule.url is not empty %}
+                            <a href="{{ error.rule.url | raw }}"> {{ error.rule.name }} </a>
+                        {% else%}
+                            <span> {{ error.rule.name }} </span>
+                        {% endif %}
+
+                        ({{ error.ruleset }})
+                    </td>
+
+                    <td class="lines"> {{ error.lines }} </td>
+
+                    <td class="message"> {{ error.message }} </td>
+                </tr> {% endfor %}
+        {% endfor %} {% endif %} </tbody>
+    </table>
+{% endblock %}

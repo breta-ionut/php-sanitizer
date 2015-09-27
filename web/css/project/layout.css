@@ -1,0 +1,59 @@
+/**
+ * Project pages base layout related styles.
+ */
+
+/**
+ * Header styles.
+ */
+header.header nav.header-navbar-container {
+    border: none;
+    margin-bottom: 0;
+}
+header.header nav.header-navbar-container ul.user-menu li a {
+    font-size: 12px;
+}
+
+header.header .header-wide {
+    /* Old browsers */
+    background: rgb(37,141,200);
+    /* FF3.6+ */
+    background: -moz-linear-gradient(top,  rgba(37,141,200,1) 0%, rgba(7,111,170,1) 100%);
+    /* Chrome, Safari4+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(37,141,200,1)), color-stop(100%,rgba(7,111,170,1)));
+    /* Chrome10+, Safari5.1+ */
+    background: -webkit-linear-gradient(top,  rgba(37,141,200,1) 0%,rgba(7,111,170,1) 100%);
+    /* Opera 11.10+ */
+    background: -o-linear-gradient(top,  rgba(37,141,200,1) 0%,rgba(7,111,170,1) 100%);
+    /* IE10+ */
+    background: -ms-linear-gradient(top,  rgba(37,141,200,1) 0%,rgba(7,111,170,1) 100%);
+    /* W3C */
+    background: linear-gradient(to bottom,  rgba(37,141,200,1) 0%,rgba(7,111,170,1) 100%);
+    /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#258dc8', endColorstr='#076faa', GradientType=0);
+    color: #FFFFFF;
+    padding: 15px 0;
+    margin-bottom: 40px;
+}
+header.header .header-wide h1.title,
+header.header .header-wide h3.subtitle {
+    font-family: 'Roboto';
+    font-weight: 300;
+    text-shadow: 1px 1px 5px rgb(40,40,40);
+}
+header.header .header-wide h1.title {
+    font-size: 60px;
+    color: #F9F9F9;
+}
+header.header .header-wide h3.subtitle {
+    font-size: 24px;
+    color: #D9D9D9;
+}
+header.header .header-wide .logo {
+    background-image: url('../../images/terminal-icon_128.png');
+    background-size: cover;
+    height: 128px;
+    width: 128px;
+}
+/**
+ * // Header styles.
+ */

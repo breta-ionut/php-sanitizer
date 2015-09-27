@@ -1,0 +1,26 @@
+/**
+ * The styles for the project delete form.
+ */
+
+.form-container {
+    width: 50%;
+    padding: 40px;
+    margin: 20px auto;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px;
+}
+
+.form-container form .buttons-container {
+    text-align: center;
+}
+.form-container form .buttons-container div.form-group {
+    display: inline-block;
+    margin-top: 30px;
+    margin-right: 30px;
+}
+.form-container form .buttons-container div.form-group:last-child {
+    margin-right: 0;
+}
+.form-container form .buttons-container div.form-group button[type='submit'] {
+    min-width: 75px;
+}

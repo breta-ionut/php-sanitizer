@@ -1,0 +1,19 @@
+{# Template which defines the base layout for the user related pages. #}
+{% extends 'base.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent () }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.user.layout.css'
+       'css/user/layout.css' %}
+       
+       <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}    
+    <div class="content-wrapper container">
+        {% block content %} {% endblock %}
+    </div>
+{% endblock %}

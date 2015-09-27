@@ -1,0 +1,34 @@
+{#
+    The project editing page template.
+    Available variables:
+        - form: the project edit form;
+#}
+
+{% extends 'project/layout.html.twig' %}
+
+{# Add the page's stylesheets #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets output='compiled/css.project.edit.css' filter='cssrewrite' 
+       'css/project/add_edit.css' %}
+       
+       <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    {{ include ('project/add_edit/form.html.twig', { form: form, legend: 'Edit project', submit_label: 'Proceed' }) }}
+{% endblock %}
+
+{# Add the page's javascript files. #}
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js.project.edit.js'
+        'js/widgets/tooltip_enabler/components/*'
+        'js/widgets/tooltip_enabler/register.js' %}
+
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

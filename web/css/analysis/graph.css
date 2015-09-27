@@ -1,0 +1,45 @@
+/**
+ * The styles for the analysys dependency graph page.
+ */
+
+#container {
+    width: 600px;
+    height: 420px;
+}
+
+/**
+ * Legend styles.
+ */
+#legend a.show-hide-legend {
+    cursor: pointer;
+}
+
+#legend ul {
+    list-style-type: none;
+    background-color: #EEEEEE;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 12px;
+    text-align: center;
+    display: none;
+}
+#legend.expanded ul {
+    display: block;
+}
+
+#legend ul li {
+    display: inline-block;
+    padding: 10px;
+}
+#legend ul li .element {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 7px;
+    border-radius: 3px;
+}
+/**
+ * //Legend styles.
+ */

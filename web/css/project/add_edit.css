@@ -1,0 +1,15 @@
+/**
+ * The styles for the project add/edit form.
+ */
+
+.form-container {
+    width: 50%;
+    padding: 40px;
+    margin: 20px auto;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px;
+}
+
+.form-container form button[type='submit']{
+    margin: 20px 0 0 0;
+}

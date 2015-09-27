@@ -1,0 +1,53 @@
+{#
+    Template used for rendering modals which contain iframes.
+    Available variables:
+        - button:
+            - type: button or link;
+            - class;
+            - title;
+            - icon: if the button representation will include an icon, this property should provide the icon's
+                definition. For now, we will only consider its CSS classes. The icon's element will always be
+                rendered as a span before the button's text.
+        - modal:
+            - id;
+            - label: the HTML id of the modal title element;
+            - title;
+        - iframe: the source of the iframe;
+#}
+
+{% if button.type == 'button' %}
+    <button type="button" class="btn btn-primary {{ button.class }}" data-toggle="modal"
+        data-target="#{{ modal.id }}">
+        {% if button.icon is defined %}
+            <span class="{{ button.icon.classes | join (' ') }}"></span>
+        {% endif %}
+        
+        {{ button.title }}
+    </button>
+{% else %}
+    <a href="#" class="{{ button.class}}" data-toggle="modal" data-target="#{{ modal.id }}">
+        {% if button.icon is defined %}
+            <span class="{{ button.icon.classes | join (' ') }}"></span>
+        {% endif %}
+        
+        {{ button.title }}
+    </a>
+{% endif %}
+
+<div class="modal" id="{{ modal.id }}" tabindex="-1" role="dialog" aria-labelledby="{{ modal.label }}"
+    data-iframe-widget-src="{{ iframe }}" data-iframe-widget-properties='{"width": 640, "height": 480}'>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
+                <h4 class="modal-title" id="{{ modal.label }}">{{ modal.title }}</h4>
+            </div>
+            <div class="modal-body" data-iframe-target>
+                <div class="loader-wrapper"><div class="loader loader-96"></div></div>
+            </div>
+        </div>
+    </div>
+</div>

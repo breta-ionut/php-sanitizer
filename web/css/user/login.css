@@ -1,0 +1,26 @@
+/**
+ * The styles corresponding to the login page.
+ */
+
+.login-block {
+    width: 40%;
+    margin: 20px auto 10px;
+}
+.login-block .login-block-title .logo {
+    background-image: url('../../images/terminal-icon_40.png');
+    background-size: cover;
+    height: 40px;
+    width: 40px;
+}
+.login-block .login-block-content {
+    padding: 40px;
+    padding-bottom: 20px;
+}
+
+form.login-form .buttons-container {
+    margin-top: 40px;
+}
+form.login-form .buttons-container .login-button,
+form.login-form .buttons-container .register-button {
+    min-width: 120px;
+}

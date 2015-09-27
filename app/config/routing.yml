@@ -1,0 +1,7 @@
+php_sanitizer_project:
+    resource: "@PHPSanitizerProjectBundle/Resources/config/routing.yml"
+    prefix:   /
+
+php_sanitizer_user:
+    resource: "@PHPSanitizerUserBundle/Resources/config/routing.yml"
+    prefix:   /

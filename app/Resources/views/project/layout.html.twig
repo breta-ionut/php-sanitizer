@@ -1,0 +1,20 @@
+{# Template which defines the base layout for the project related pages. #}
+{% extends 'base.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent () }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.project.layout.css'
+       'css/project/layout.css' %}
+       <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    {{ include ('project/layout/header.html.twig') }}
+    
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
+{% endblock %}

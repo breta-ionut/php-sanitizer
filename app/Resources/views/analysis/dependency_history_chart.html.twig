@@ -1,0 +1,56 @@
+{# 
+    The template for the dependency history chart.
+    Available variables:
+        - chart: the data for the history chart;
+#}
+
+{% extends 'base.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.analysis.dependency-history-chart.css'
+        'css/analysis/dependency_history_chart.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <canvas id="container"></canvas>
+{% endblock %}
+
+{# Add the chart library, used for chart rendering. #}
+{% block javascripts_libs %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js-libs.analysis.dependency-history-chart.js'
+        'libs/chart/chart.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{# Add the page's javascript files and data. #}
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js.analysis.dependency-history-chart.js' 
+        'js/widgets/charter/components/*'
+        'js/widgets/charter/register.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    <script type="text/javascript">
+        (function () {
+            var charterData = {
+                charter: { 
+                    container: '#container',
+                    data: {{ chart | json_encode() | raw }},
+                    type: 'Line'
+                }
+            };
+            
+            PHPS.Executor.addData(charterData);
+        })();
+    </script>
+{% endblock %}

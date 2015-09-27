@@ -1,0 +1,29 @@
+{#
+    The template of the terms and conditions modal.
+    Available variables:
+        - modalId: the id attribute of the HTML element representing the modal;
+#}
+
+<div class="terms-and-conditions modal" id="{{ modalId }}" tabindex="-1" role="dialog"
+     aria-labelledby="terms-and-conditions-title">
+    
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
+                <h4 class="modal-title" id="terms-and-conditions-title">Terms and conditions</h4>
+            </div>
+            
+            <div class="modal-body">
+                {{ include ('user/register/terms-text.html.twig') }}
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

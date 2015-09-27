@@ -1,0 +1,44 @@
+{# The header template for the project related pages. #}
+
+<header class="header">
+    <nav class="header-navbar-container navbar navbar-default"><div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                data-target="#header-navbar" aria-expanded="false">
+
+                <span class="sr-only">Toggle menu</span>
+
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="{{ path ('php_sanitizer_project_index') }}">PHP Sanitizer</a>
+        </div>
+
+        <div id="header-navbar" class="collapse navbar-collapse">
+            {{ include (
+                    'project/layout/main-menu.html.twig',
+                    {
+                        items : {
+                            'Home' : 'php_sanitizer_project_index'
+                        }
+                    }
+                )
+            }}
+            
+            <ul class="user-menu nav navbar-nav navbar-right">
+                <li><a href="{{ path('php_sanitizer_user_logout') }}"> Logout </a></li>
+            </ul>
+        </div>
+    </div></nav>
+            
+    <div class="header-wide"><div class="container">
+        <div class="title-container pull-left">
+            <h1 class="title page-title"> PHP Sanitizer </h1>
+            <h3 class="subtitle"> Complex project analyzer </h3>
+        </div>
+        
+        <div class="logo pull-right"></div>
+    </div></div>
+</header>

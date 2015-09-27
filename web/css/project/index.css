@@ -1,0 +1,29 @@
+/**
+ * The styles for the user's project summary page.
+ */
+
+div.projects-table-wrapper {
+    width: 70%;
+    margin: auto;
+}
+
+.add-project {
+    margin-bottom: 20px;
+}
+
+table.projects-table tr.project .if-analyzing,
+table.projects-table tr.project .if-empty,
+table.projects-table tr.project.analyzing .if-not-analyzing,
+table.projects-table tr.project.empty .if-not-empty {
+    display: none;
+} 
+table.projects-table tr.project .if-not-analyzing,
+table.projects-table tr.project .if-not-empty,
+table.projects-table tr.project.analyzing .if-analyzing,
+table.projects-table tr.project.empty .if-empty {
+    display: initial;
+} 
+
+table.projects-table, table.projects-table th {
+    text-align: center;
+}

@@ -1,0 +1,85 @@
+{# 
+    The table displayed in the project's summary page.
+
+    Available variables:
+        - analyses: the set of analyses which will be rendered in the table. Every analysis should have the
+            following properties: isNew, label, phpMDScore, isValidPHPMDAnalysis, dependencyScore,
+            isValidDependencyAnalysis;
+#}
+
+<table class="analyses-table table">
+    <thead>
+        <th> Created </th>
+        <th> Error indicator </th>
+        <th> Error reports </th>
+        <th> Dependency indicator </th>
+        <th> Dependency reports </th>
+    </thead>
+
+    <tbody>{% for id, analysis in analyses %}
+        <tr class="analysis {% if analysis.isNew %}new{% endif %}"
+            {% if analysis.isNew %}
+                data-toggle="tooltip" title="This analysis seems to have unread results!"
+            {% endif %}>
+            
+            <td class="created"> {{ analysis.label }} </td>
+
+            <td class="phpmd-score"> {{ analysis.phpMDScore | default('Not available') }} </td>
+            <td class="phpmd-view"> {% if analysis.isValidPHPMDAnalysis %}
+                {{ include (
+                    'project/view/iframe_modal.html.twig',
+                    {
+                        modal: {
+                            id: "phpmd-chart-#{id}",
+                            label: "phpmd-chart-#{id}-modal-title",
+                            title: 'Errors Chart'
+                        },
+                        button: {
+                            class: "phpmd-chart-trigger",
+                            title: 'Chart',
+                            type: 'link'
+                        },
+                        iframe: path('php_sanitizer_project_analysis_chart', { id: id })
+                    }
+                ) }}
+                &nbsp;|&nbsp;
+                {{ include (
+                    'project/view/iframe_modal.html.twig',
+                    {
+                        modal: {
+                            id: "phpmd-table-#{id}",
+                            label: "phpmd-table-#{id}-modal-title",
+                            title: 'Errors table'
+                        },
+                        button: {
+                            class: "phpmd-table-trigger",
+                            title: 'Table',
+                            type: 'link'
+                        },
+                        iframe: path('php_sanitizer_project_analysis_table', { id: id })
+                    }
+                ) }}
+            {% endif %} </td>
+
+            <td class="dependency-score"> {{ analysis.dependencyScore | default('Not available') }} </td>
+            <td class="dependency-view"> {% if analysis.isValidDependencyAnalysis %}
+                {{ include (
+                    'project/view/iframe_modal.html.twig',
+                    {
+                        modal: {
+                            id: "dependency-graph-#{id}",
+                            label: "dependency-graph-#{id}-modal-title",
+                            title: 'Dependency graph'
+                        },
+                        button: {
+                            class: "dependency-graph-trigger",
+                            title: 'Graph',
+                            type: 'link'
+                        },
+                        iframe: path('php_sanitizer_project_analysis_dependency', { id: id })
+                    }
+                ) }}
+            {% endif %} </td>
+        </tr>
+    {% endfor %}</tbody>
+</table>

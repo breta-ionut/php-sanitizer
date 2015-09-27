@@ -1,0 +1,34 @@
+{#
+    The template of the project add/edit form.
+    Available variables:
+        - form;
+        - legend;
+        - submit_label;
+#}
+
+<div class="form-container">
+    {{ form_start (form) }}
+    
+        <legend> {{ legend }} </legend>
+
+        {{ form_row (form.name) }}
+        {{ form_row (form.file) }}
+        {{ form_row (
+            form.modules_path, {
+                label: 'Module REGEX',
+                attr: {
+                    'data-toggle': 'tooltip',
+                    title: 'You should insert here a valid regex for identifying your modules in the project\'s ' ~
+                        'directory tree'
+                }
+        }) }}
+        {{ form_row (
+            form.submit, {
+                label: submit_label,
+                attr: {
+                    class: 'btn-lg btn-primary',
+                } 
+        }) }}
+    
+    {{ form_end (form) }}
+</div>

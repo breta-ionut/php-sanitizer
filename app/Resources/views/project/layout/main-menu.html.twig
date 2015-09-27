@@ -1,0 +1,14 @@
+{# 
+    The template for the application's main menu.
+    Available variables:
+        - items: an array of menu items. The keys represent the menu items names
+            and the values, the internal path names.
+#}
+
+<ul class="main-menu nav navbar-nav">
+    {% for name, route in items %}
+        <li class="{% if app.request.get('_route') == route %}active{% endif %}">
+            <a href="{{ path(route) }}"> {{ name }} </a>
+        </li>
+    {% endfor %}
+</ul>

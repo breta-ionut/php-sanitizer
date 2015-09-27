@@ -1,0 +1,11 @@
+/**
+ * The styles for the analysys phpmd errors table page.
+ */
+
+table.phpmd-errors, table.phpmd-errors th {
+    text-align: center;
+}
+table.phpmd-errors tr.phpmd-empty, table.phpmd-errors tr.phpmd-file {
+    background-color: #EEEEEE;
+    font-weight: bold;
+}

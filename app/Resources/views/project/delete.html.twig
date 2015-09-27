@@ -1,0 +1,33 @@
+{#
+    The project deleting page template.
+    Available variables:
+        - form: the project delete form;
+#}
+
+{% extends 'project/layout.html.twig' %}
+
+{# Add the page's stylesheets #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets output='compiled/css.project.delete.css' filter='cssrewrite' 
+       'css/project/delete.css' %}
+       
+       <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="form-container">
+        {{ form_start (form) }}
+            <legend> Delete project </legend>
+        
+            <p class="delete-question"> Are you sure you want to delete this project? </p>
+            
+            <div class="buttons-container">
+                {{ form_row (form.yes, { attr: { class: 'btn-lg btn-success' } }) }}
+                {{ form_row (form.no, { attr: { class: 'btn-lg btn-danger' } }) }}
+            </div>
+        {{ form_end (form) }}
+    </div>
+{% endblock %}

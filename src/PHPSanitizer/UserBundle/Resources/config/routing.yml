@@ -1,0 +1,20 @@
+# The routes defined defined by the bundle.
+
+# The login page.
+php_sanitizer_user_login:
+    path:     /
+    defaults: { _controller: PHPSanitizerUserBundle:Login:index }
+
+# The check login page. It is used only internally.
+php_sanitizer_user_login_check:
+    path:     /login_check
+    defaults: { _controller: PHPSanitizerUserBundle:Login:loginCheck }
+
+# The user registration page.
+php_sanitizer_user_register:
+    path:     /register
+    defaults: { _controller: PHPSanitizerUserBundle:Register:index }
+
+# The user logout page.
+php_sanitizer_user_logout:
+    path:     /logout

@@ -1,0 +1,65 @@
+{#
+    Template of the projects table from the user's project summary page.
+    Available variables:
+        - projects: the list of projects that will get rendered. Every project, by itself, will have the
+            following properties:
+            - name;
+            - isAnalyzed: a flag which determines if the project is being analyzed at the current time;
+            - isEmpty: a flag which determines if the project has valid analyses attached;
+#}
+
+<div class="projects-table-container panel panel-default">
+    <div class="panel-heading">
+        <h4> Project dashboard </h4>
+    </div>
+    
+    <div class="panel-body"><p>
+        This is the project dashboard. Here are listed all your projects and you are free to manage them as
+        you want. You can edit or delete projects, or you can view their associated analyses results.
+        Please remember though, that while a project is being analyzed, you can't edit or delete it.
+    </p></div>
+    
+    <table class="projects-table table">
+        <thead><tr>
+            <th> Project </th>
+            <th> Status </th>
+            <th> Operations </th>
+        </tr></thead>
+
+        <tbody> {% if projects is empty %} 
+            <tr class="empty"><td colspan="3"> It seems that you didn't add any project yet. </td></tr>
+        {% else %} {% for id, project in projects %}
+            <tr class="project{% if project.isAnalyzed %} analyzing{% endif %}{% if project.isEmpty %} empty{% endif%}"
+                data-project-watcher-widget-id="{{ id }}">
+
+                <td class="name">
+                    <span class="if-empty"> {{ project.name }} </span>
+
+                    <a class="if-not-empty" href="{{ path('php_sanitizer_project_view', { id : id }) }}">
+                        {{ project.name }}
+                    </a>
+                </td>
+
+                <td class="status">
+                    <span class="if-analyzing"> In progress... <span class="loader-14"></span></span>
+                    <span class="if-not-analyzing"> Done <span class="glyphicon glyphicon-ok"></span></span>
+                </td>
+
+                <td class="operations">
+                    <div class="if-analyzing">
+                        <span data-toggle="tooltip" data-placement="right"
+                            title="You can't edit or delete a project while is analyzed.">
+                            
+                            Not available
+                        </span>
+                    </div>
+
+                    <div class="if-not-analyzing">
+                        <a href="{{ path ('php_sanitizer_project_edit', { id : id }) }}"> Edit </a>
+                        <a href="{{ path ('php_sanitizer_project_delete', { id : id }) }}"> Delete </a>
+                    </div>
+                </td>
+            </tr> 
+        {% endfor %} {% endif %} </tbody>
+    </table>
+</div>

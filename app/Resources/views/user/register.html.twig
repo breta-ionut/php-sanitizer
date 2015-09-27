@@ -1,0 +1,53 @@
+{#
+    The register page template.
+    Available variables:
+        - internalErrorsDetected: flag which indicates if an internal error was raised during the register process;
+        - form;
+#}
+
+{% extends 'user/layout.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent () }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.user.register.css'
+       'css/user/register.css' %}
+       
+       <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="register-block panel panel-primary">
+        <div class="register-block-title panel-heading clearfix">
+            <h4 class="pull-left"> Register </h4>
+            <div class="logo pull-right"></div>
+        </div>
+        
+        <div class="register-block-content panel-body">
+            {% if internalErrorsDetected %}
+                <div class="error-message alert alert-danger">
+                    It seems that an internal error appeared during the register process. Please try again!
+                </div>
+            {% endif %}
+            
+            {{ form_start (form) }}
+
+                {{ form_row (form.user, { label: false }) }}
+                
+                <div class="terms-and-conditions-container form-group">
+                    {{ form_row (form.terms, { label: 'Do you agree to our terms and conditions?' }) }}
+                
+                    <a href="#" class="terms-conditions-button" data-toggle="modal" data-target="#terms-and-conditions">
+                        Terms and conditions
+                    </a>
+                    {{ include ('user/register/terms.html.twig', { modalId: 'terms-and-conditions' }) }}
+                </div>
+                
+                {{ form_row (form.submit, { label: 'Register', attr: { class: 'btn btn-lg btn-primary' } }) }}
+                
+            {{ form_end (form) }}
+        </div>
+    </div>
+{% endblock %}

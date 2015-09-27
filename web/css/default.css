@@ -1,0 +1,22 @@
+/**
+ * General styles for the project.
+ */
+
+.loader-14 {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-size: cover;
+    background-image: url(../images/loader_14.gif);
+    position: relative;
+    top: 1px;
+}
+.loader-96 {
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    background-size: cover;
+    background-image: url(../images/loader_96.gif);
+    position: relative;
+    top: 1px;
+}

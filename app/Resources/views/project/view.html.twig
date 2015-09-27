@@ -1,0 +1,83 @@
+{#
+    Template for the project analyses view page.
+    Available variables:
+        - isAnalyzed: flag which specifies if the project is being analyzed;
+        - hasValidPHPMDAnalyses: flag which specifies if the project as valid PHPMD analyses;
+        - hasValidDependencyAnalyses: flag which specifies if the project as valid dependency analyses;
+        - projectId;
+        - analyses: the set of analyses of the project. Every analysis should have the following
+            properties: isNew, label, phpMDScore, isValidPHPMDAnalysis, dependencyScore,
+            isValidDependencyAnalysis;
+#}
+
+{% extends 'project/layout.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.project.view.css'
+        'css/project/view.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="analyses-wrapper">
+        <div class="project-notices-container">
+            {{ include (
+                'project/view/project_notices.html.twig',
+                {
+                    isAnalyzed: isAnalyzed
+                }
+            ) }}
+        </div>
+
+        <div class="project-history-container">
+            {{ include (
+                'project/view/project_history.html.twig',
+                { 
+                    hasValidPHPMDAnalyses: hasValidPHPMDAnalyses,
+                    hasValidDependencyAnalyses: hasValidDependencyAnalyses,
+                    projectId: projectId
+                }
+            ) }}
+        </div>
+
+        <div class="table-container">
+            {{ include (
+                'project/view/table.html.twig',
+                {
+                    analyses: analyses
+                }
+            ) }}
+        </div>
+    </div>
+{% endblock %}
+
+{# Add the page's javascript files and data. #}
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js.project.view.js' 
+        'js/widgets/iframe/components/*'
+        'js/widgets/iframe/register.js' 
+        'js/widgets/project_notifier/components/*'
+        'js/widgets/project_notifier/register.js'
+        'js/widgets/tooltip_enabler/components/*'
+        'js/widgets/tooltip_enabler/register.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    <script type="text/javascript">
+        (function () {
+            var projectNotifierData = {
+                project_notifier: {
+                    url: "{{ path ('php_sanitizer_project_notice', { id : projectId }) }}"
+                }
+            };
+            
+            PHPS.Executor.addData(projectNotifierData);
+        })();
+    </script>
+{% endblock %}

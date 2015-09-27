@@ -1,0 +1,79 @@
+# The routes defined by the bundle.
+
+# The project adding page.
+php_sanitizer_project_add:
+    path:     /projects/add
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:add }
+
+# The project editing page.
+php_sanitizer_project_edit:
+    path:     /projects/{id}/edit
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:edit }
+    requirements:
+        id: \d+
+
+# The project deleting page.
+php_sanitizer_project_delete:
+    path:     /projects/{id}/delete
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:delete }
+    requirements:
+        id: \d+
+
+# The projects summary page.
+php_sanitizer_project_index:
+    path:     /projects
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:index }
+
+# The projects watching endpoint.
+php_sanitizer_project_watch:
+    path:     /watch
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:watch }
+    
+# The project analyses summary page.
+php_sanitizer_project_view:
+    path:   /projects/{id}/view
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:view }
+    requirements:
+        id: \d+
+
+# The project's status notifier internal endpoint.
+php_sanitizer_project_notice:
+    path:   /projects/{id}/notice
+    defaults: { _controller: PHPSanitizerProjectBundle:Projects:notice }
+    requirements:
+        id: \d+ 
+
+# The analysis dependency viewing page.
+php_sanitizer_project_analysis_dependency:
+    path:   /analyses/{id}/dependency
+    defaults: { _controller: PHPSanitizerProjectBundle:Analyses:dependency }
+    requirements:
+        id: \d+
+
+# The analysis PHPMD errors chart viewing page.
+php_sanitizer_project_analysis_chart:
+    path:   /analyses/{id}/chart
+    defaults: { _controller: PHPSanitizerProjectBundle:Analyses:chart }
+    requirements:
+        id: \d+
+
+# The analysis PHPMD errors table viewing page.
+php_sanitizer_project_analysis_table:
+    path:   /analyses/{id}/table
+    defaults: { _controller: PHPSanitizerProjectBundle:Analyses:table }
+    requirements:
+        id: \d+
+        
+# The project PHPMD errors history chart viewing page.
+php_sanitizer_project_analysis_phpmd_history_chart:
+    path:   /projects/{id}/phpmd-history-chart
+    defaults: { _controller: PHPSanitizerProjectBundle:Analyses:phpMDHistoryChart }
+    requirements:
+        id: \d+
+
+# The project dependency errors history chart viewing page.
+php_sanitizer_project_analysis_dependency_history_chart:
+    path:   /projects/{id}/dependency-history-chart
+    defaults: { _controller: PHPSanitizerProjectBundle:Analyses:dependencyHistoryChart }
+    requirements:
+        id: \d+

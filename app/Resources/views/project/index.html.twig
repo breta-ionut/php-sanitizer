@@ -1,0 +1,62 @@
+{#
+    Template of the user's project summary page.
+    Available variables:
+        - projects: the list of projects that will get rendered. Every project, by itself, will have the
+            following properties:
+            - name;
+            - isAnalyzed: a flag which determines if the project is being analyzed at the current time;
+            - isEmpty: a flag which determines if the project has valid analyses attached;
+#}
+
+{% extends 'project/layout.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent () }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.project.index.css'
+        'css/project/index.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block content %}
+    <div class="projects-table-wrapper">
+        <a class="add-project btn btn-lg btn-success" href="{{ path('php_sanitizer_project_add') }}">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add project
+        </a>
+
+        {{ include (
+            'project/index/table.html.twig',
+            {
+                projects: projects
+            }
+        ) }}
+    </div>
+{% endblock %}
+    
+{# Add the page's javascript files and data. #}
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js.project.index.js' 
+        'js/widgets/project_watcher/components/*'
+        'js/widgets/project_watcher/register.js' 
+        'js/widgets/tooltip_enabler/components/*'
+        'js/widgets/tooltip_enabler/register.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    <script type="text/javascript">
+        (function () {
+            var projectWatcherData = {
+                project_watcher : {
+                    url : "{{ path('php_sanitizer_project_watch') | raw }}"
+                }
+            };
+            
+            PHPS.Executor.addData(projectWatcherData);
+        })();
+    </script>
+{% endblock %}

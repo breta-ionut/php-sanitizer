@@ -1,0 +1,93 @@
+/**
+ * The styles for the analysys view page.
+ */
+
+.analyses-wrapper {
+    width: 80%;
+    margin: auto;
+}
+
+/**
+ * Modal styles.
+ */
+.modal-dialog {
+    width: 720px;
+}
+.modal-dialog .modal-header h4.modal-title {
+    text-align: left;
+}
+.modal-dialog .modal-body iframe {
+    display: block;
+    margin: auto;
+    border: none;
+}
+.modal-dialog .modal-body .loader-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: -15px;
+    z-index: 10;
+    background: rgba(240, 240, 240, 0.4);
+    display: none;
+}
+.modal.loading .modal-dialog .modal-body .loader-wrapper {
+    display: block;
+}
+.modal-dialog .modal-body .loader-wrapper .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -72px;
+    margin-left: -48px;
+}
+/**
+ * //Modal styles.
+ */
+
+/**
+ * Projects notices styles.
+ */
+.project-notices {
+    margin-bottom: 40px;
+}
+.project-notices .if-analyzing,
+.project-notices.analyzing .if-not-analyzing {
+    display: none;
+}
+.project-notices.analyzing .if-analyzing,
+.project-notices .if-not-analyzing {
+    display: block;
+}
+/**
+ * //Projects notices styles.
+ */
+
+/**
+ * Projects history buttons styles.
+ */
+.project-history-container {
+    margin-bottom: 40px;
+}
+.project-history-container button {
+    margin-right: 15px;
+}
+.project-history-container button:last-child {
+    margin-right: 0;
+}
+/**
+ * //Projects history buttons styles.
+ */
+
+/**
+ * Analyses list styles.
+ */
+table.analyses-table, table.analyses-table th {
+    text-align: center;
+}
+table.analyses-table tr.analysis.new {
+    font-weight: bold;
+    background-color: #EEEEEE;
+}
+/**
+ * //Analyses list styles.
+ */

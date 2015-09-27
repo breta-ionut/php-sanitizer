@@ -1,0 +1,20 @@
+{#
+    Template for the analysis viewing page notice area.
+    Available variables:
+        - isAnalyzed: a flag which specifies if the current project is being analyzed;
+#}
+
+{% if isAnalyzed %}
+    <div class="project-notices analyzing" data-project-notifier-widget-subscriber>
+        <div class="notice analyzed-project if-analyzing alert alert-info">
+            <span> This project is currently being analyzed. </span>
+        </div>
+        
+        <div class="notice new-analyses if-not-analyzing alert alert-success">
+            <span>
+                The ongoing analyses on the project were finished. Click <a class="alert-link" href=""> here </a>
+                to refresh the page and see their results.
+            </span>
+        </div>
+    </div>
+{% endif %}

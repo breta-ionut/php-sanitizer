@@ -1,0 +1,59 @@
+{#
+    The template for the errors chart.
+    Available variables:
+        - chart: the chart representation data;
+#}
+
+{% extends 'base.html.twig' %}
+
+{# Add the page's stylesheets. #}
+{% block stylesheets %}
+    {{ parent() }}
+    
+    {% stylesheets filter='cssrewrite' output='compiled/css.analysis.chart.css'
+        'css/analysis/chart.css' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+    <canvas id="container"></canvas>
+    
+    <div id="legend"></div>
+{% endblock %}
+
+{# Add the chart library, used for chart rendering. #}
+{% block javascripts_libs %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js-libs.analysis.chart.js'
+        'libs/chart/chart.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{# Add the page's javascript files and data. #}
+{% block javascripts %}
+    {{ parent() }}
+    
+    {% javascripts output='compiled/js.analysis.chart.js' 
+        'js/widgets/charter/components/*'
+        'js/widgets/charter/register.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    <script type="text/javascript">
+        (function () {
+            var charterData = {
+                charter: { 
+                    container: '#container',
+                    data: {{ chart.data | json_encode() | raw }},
+                    legendContainer: '#legend',
+                    legend: {{ chart.legend | json_encode() | raw }}
+                }
+            };
+            
+            PHPS.Executor.addData(charterData);
+        })();
+    </script>
+{% endblock %}

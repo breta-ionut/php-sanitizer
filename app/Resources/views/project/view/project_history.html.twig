@@ -1,0 +1,54 @@
+{# 
+    The project's summary page history portion.
+    
+    Available variables:
+        - projectId;
+#}
+
+{% if hasValidPHPMDAnalyses %}
+    {{
+        include (
+            'project/view/iframe_modal.html.twig',
+            {
+                modal: {
+                    id: 'phpmd-history-chart',
+                    label: 'phpmd-history-chart-modal-title',
+                    title: 'Errors history chart'
+                },
+                button: {
+                    class: 'phpmd-history-chart-trigger',
+                    title: 'Errors history chart',
+                    icon: {
+                        classes: ['glyphicon', 'glyphicon-stats']
+                    },
+                    type: 'button'
+                },
+                iframe: path('php_sanitizer_project_analysis_phpmd_history_chart', { id: projectId })
+            }
+        )
+    }}
+{% endif %}
+
+{% if hasValidDependencyAnalyses %}
+    {{
+        include (
+            'project/view/iframe_modal.html.twig',
+            {
+                modal: {
+                    id: 'dependency-history-chart',
+                    label: 'dependency-history-chart-modal-title',
+                    title: 'Dependency history chart'
+                },
+                button: {
+                    class: 'dependency-history-chart-trigger',
+                    title: 'Dependency history chart',
+                    icon: {
+                        classes: ['glyphicon', 'glyphicon-stats']
+                    },
+                    type: 'button'
+                },
+                iframe: path('php_sanitizer_project_analysis_dependency_history_chart', { id: projectId })
+            }
+        )
+    }}
+{% endif %}
