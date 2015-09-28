@@ -12,5 +12,7 @@
 /nbproject/
 /data/*
 !data/.gitkeep
+/tmp/*
+!tmp/.gitkeep
 /web/compiled/*
 !web/compiled/.gitkeep

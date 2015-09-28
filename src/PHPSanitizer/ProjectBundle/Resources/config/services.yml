@@ -5,9 +5,9 @@ parameters:
     # The path where the projects are stored.
     php_sanitizer_project.projects_base_directory: data\projects
     # The path to the main analyzer workspace.
-    php_sanitizer_project.analyzer.workspace: data\tmp\analyzer
+    php_sanitizer_project.analyzer.workspace: tmp\analyzer
     # The path to the PHPMD analyzer workspace.
-    php_sanitizer_project.analyzer.phpmd.workspace: data\tmp\analyzer_phpmd
+    php_sanitizer_project.analyzer.phpmd.workspace: tmp\analyzer_phpmd
     # The path to the PHPMD tool.
     php_sanitizer_project.analyzer.phpmd.phpmd_path: D:\Projects\Web\PHP\PHP-Sanitizer\vendor\phpmd\phpmd\src\bin
     # The PHPMD rules used to analyze projects.
