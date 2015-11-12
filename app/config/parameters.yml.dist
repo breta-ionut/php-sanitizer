@@ -17,3 +17,6 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    # Bundle specific configuration.
+    php_sanitizer_project.analyzer.phpmd.phpmd_path: ~
