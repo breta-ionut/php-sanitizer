@@ -9,7 +9,7 @@ parameters:
     # The path to the PHPMD analyzer workspace.
     php_sanitizer_project.analyzer.phpmd.workspace: tmp\analyzer_phpmd
     # The path to the PHPMD tool.
-    php_sanitizer_project.analyzer.phpmd.phpmd_path: D:\Projects\Web\PHP\PHP-Sanitizer\vendor\phpmd\phpmd\src\bin
+    php_sanitizer_project.analyzer.phpmd.phpmd_path: ~
     # The PHPMD rules used to analyze projects.
     php_sanitizer_project.analyzer.phpmd.rules:
         - codesize
